@@ -1,0 +1,41 @@
+╔══════════════════════════════════════════════════════════════════╗
+║          SM EMPREITEIRAS — ESTRUTURA DE MODELOS GLB             ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Cada projeto tem sua própria subpasta com seus GLBs:
+
+  /public/models/
+    sobrado/
+      full.glb             ✅ já adicionado
+      floor-01.glb
+      floor-02.glb
+      planta-baixa.glb
+
+    sobrado-geminado/
+      full.glb
+      floor-01.glb
+      floor-02.glb
+      planta-baixa.glb
+
+    casa-terrea/
+      full.glb
+      floor-01.glb
+      planta-baixa.glb
+
+    duplex/
+      full.glb
+      floor-01.glb
+      floor-02.glb
+      planta-baixa.glb
+
+    alvenaria/
+      full.glb
+      floor-01.glb
+      planta-baixa.glb
+
+ADICIONAR NOVO PROJETO:
+  1. Crie a pasta em /public/models/<id-do-projeto>/
+  2. Adicione os GLBs (full.glb, floor-01.glb, planta-baixa.glb...)
+  3. Adicione o projeto em /store/project-store.ts → array PROJECTS
+
+Enquanto um GLB não existir → wireframe placeholder automático.
