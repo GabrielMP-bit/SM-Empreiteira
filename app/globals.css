@@ -8,6 +8,8 @@
   --gold:   #C9A227;
   --gold-2: #DDB83A;
   --gold-3: #F0D070;
+  --logo-blue: #0B4F93;
+  --logo-orange: #F6A623;
 
   --ink:   #04040A;
   --ink-2: #07070C;
@@ -41,12 +43,82 @@
   --input:              rgba(255,255,255,0.06);
   --ring:               #C9A227;
   --radius:             8px;
+
+  --surface-hero: linear-gradient(180deg, #04040A 0%, #06060C 100%);
+  --surface-showroom: #06060A;
+  --surface-features: linear-gradient(180deg, #09090E 0%, #07070C 100%);
+  --surface-process: #07070C;
+  --surface-cta: linear-gradient(180deg, #07070C 0%, #050508 100%);
+  --surface-footer: #050508;
+  --card-soft: rgba(255,255,255,0.016);
+  --card-soft-strong: rgba(255,255,255,0.025);
+  --subtle-border: rgba(255,255,255,0.05);
+  --nav-bg-scrolled: rgba(6,6,10,0.92);
+  --nav-bg-top: linear-gradient(180deg, rgba(4,4,10,0.75), transparent);
+  --nav-border: rgba(255,255,255,0.05);
+  --bottom-nav-bg: rgba(6,6,10,0.90);
+  --hero-glow: rgba(201,162,39,0.055);
+  --grid-line: rgba(201,162,39,0.30);
+  --viewer-bg: #06070D;
+  --viewer-grid: rgba(201,162,39,0.18);
+}
+
+.light {
+  color-scheme: light;
+
+  --gold:   #F6A623;
+  --gold-2: #FFB547;
+  --gold-3: #FFD27A;
+
+  --ink:   #0B4F93;
+  --ink-2: #EAF3FF;
+  --ink-3: #D9EAFB;
+
+  --txt:    #0B4F93;
+  --mute:   #55779D;
+  --mute-2: #AFC4DA;
+
+  --background:         #F7FAFF;
+  --foreground:         #0B4F93;
+  --card-bg:            rgba(255,255,255,0.88);
+  --card-foreground:    #0B4F93;
+  --popover:            #FFFFFF;
+  --popover-foreground: #0B4F93;
+  --primary:            #F6A623;
+  --primary-foreground: #0B4F93;
+  --secondary:          #EAF3FF;
+  --secondary-foreground: #0B4F93;
+  --muted:              #EAF3FF;
+  --muted-foreground:   #55779D;
+  --accent:             rgba(246,166,35,0.12);
+  --accent-foreground:  #0B4F93;
+  --border:             rgba(11,79,147,0.14);
+  --input:              rgba(11,79,147,0.16);
+  --ring:               #F6A623;
+
+  --surface-hero: linear-gradient(180deg, #FFFFFF 0%, #EAF4FF 100%);
+  --surface-showroom: linear-gradient(180deg, #F8FBFF 0%, #EDF6FF 100%);
+  --surface-features: linear-gradient(180deg, #EDF6FF 0%, #F8FBFF 100%);
+  --surface-process: #F8FBFF;
+  --surface-cta: linear-gradient(180deg, #F8FBFF 0%, #EAF4FF 100%);
+  --surface-footer: #FFFFFF;
+  --card-soft: rgba(255,255,255,0.72);
+  --card-soft-strong: rgba(255,255,255,0.86);
+  --subtle-border: rgba(11,79,147,0.14);
+  --nav-bg-scrolled: rgba(255,255,255,0.88);
+  --nav-bg-top: linear-gradient(180deg, rgba(255,255,255,0.82), transparent);
+  --nav-border: rgba(11,79,147,0.12);
+  --bottom-nav-bg: rgba(255,255,255,0.90);
+  --hero-glow: rgba(246,166,35,0.18);
+  --grid-line: rgba(11,79,147,0.12);
+  --viewer-bg: #F4F8FF;
+  --viewer-grid: rgba(11,79,147,0.12);
 }
 
 @theme inline {
-  --font-sans:    var(--font-sans, 'DM Sans', sans-serif);
+  --font-sans:    var(--font-sans, 'Montserrat', sans-serif);
   --font-mono:    var(--font-mono, 'JetBrains Mono', monospace);
-  --font-display: var(--font-display, 'Cormorant Garamond', serif);
+  --font-display: var(--font-sans, 'Montserrat', sans-serif);
 
   --color-background:         var(--background);
   --color-foreground:         var(--foreground);
@@ -83,7 +155,80 @@
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground antialiased; }
+  html { scroll-padding-top: 72px; }
+  body { @apply bg-background text-foreground antialiased; transition: background-color 240ms ease, color 240ms ease; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button:not(:disabled), [role="button"]:not([aria-disabled="true"]), a[href] { cursor: pointer; }
+  button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+}
+
+.light [class*="text-white"] {
+  color: rgba(11,79,147,0.70) !important;
+}
+
+.light .text-white\/90,
+.light .text-white\/88,
+.light .text-white\/85,
+.light .text-white\/80,
+.light .text-white\/76,
+.light .text-white\/72,
+.light .text-white\/70 {
+  color: rgba(11,79,147,0.92) !important;
+}
+
+.light .text-white\/60,
+.light .text-white\/55,
+.light .text-white\/50,
+.light .text-white\/48,
+.light .text-white\/46,
+.light .text-white\/42,
+.light .text-white\/40,
+.light .text-white\/36,
+.light .text-white\/35,
+.light .text-white\/34 {
+  color: rgba(11,79,147,0.66) !important;
+}
+
+.light .text-white\/30,
+.light .text-white\/28,
+.light .text-white\/25,
+.light .text-white\/22,
+.light .text-white\/20,
+.light .text-white\/15 {
+  color: rgba(11,79,147,0.46) !important;
+}
+
+.light [class*="border-white"] {
+  border-color: rgba(11,79,147,0.14) !important;
+}
+
+.light [class*="bg-white/"],
+.light [class*="bg-white\\["] {
+  background-color: rgba(11,79,147,0.04) !important;
+}
+
+.brand-logo-card {
+  background: rgba(255,255,255,0.02);
+}
+
+.brand-logo-light {
+  display: none;
+}
+
+.brand-logo-dark {
+  display: block;
+}
+
+.light .brand-logo-card {
+  background: rgba(255,255,255,0.95);
+}
+
+.light .brand-logo-light {
+  display: block;
+}
+
+.light .brand-logo-dark {
+  display: none;
 }
 
 /* ── Scrollbar ────────────────────────────────────── */
