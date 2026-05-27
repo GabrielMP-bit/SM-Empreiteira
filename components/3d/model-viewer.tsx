@@ -55,7 +55,7 @@ function GlbScene({ url, autoRotate, isFloorPlan }: {
   url: string; autoRotate: boolean; isFloorPlan: boolean
 }) {
   const gltf       = useGLTF(url)
-  const { camera } = useThree()
+  const { camera, size: viewportSize } = useThree()
   const groupRef   = useRef<THREE.Group>(null)
   const fittedRef  = useRef(false)
 
@@ -93,7 +93,8 @@ function GlbScene({ url, autoRotate, isFloorPlan }: {
 
     const cam    = camera as THREE.PerspectiveCamera
     const fovRad = (cam.fov * Math.PI) / 180
-    const fitDist = (Math.max(size.x, size.z) / 2) / Math.tan(fovRad / 2) * 1.55
+    const fitMultiplier = viewportSize.width < 640 ? 2.15 : 1.55
+    const fitDist = (Math.max(size.x, size.z) / 2) / Math.tan(fovRad / 2) * fitMultiplier
 
     if (isFloorPlan) {
       camera.position.set(0, fitDist * 1.6, 0.5)
@@ -103,7 +104,7 @@ function GlbScene({ url, autoRotate, isFloorPlan }: {
       camera.lookAt(0, size.y * 0.3, 0)
     }
     camera.updateProjectionMatrix()
-  }, [url, camera, isFloorPlan, gltf.scene])
+  }, [url, camera, isFloorPlan, gltf.scene, viewportSize.width])
 
   useFrame((_, delta) => {
     if (groupRef.current && autoRotate) groupRef.current.rotation.y += delta * 0.16
@@ -161,6 +162,53 @@ function Ground() {
   )
 }
 
+function MissingModelState({ modelUrl, project, view }: {
+  modelUrl: string
+  project: string
+  view: string
+}) {
+  return (
+    <div className="relative w-full h-full overflow-hidden" style={{ background: 'var(--viewer-bg)' }}>
+      <div
+        className="absolute inset-0 opacity-25"
+        style={{
+          backgroundImage:
+            'linear-gradient(var(--viewer-grid) 1px, transparent 1px), linear-gradient(90deg, var(--viewer-grid) 1px, transparent 1px)',
+          backgroundSize: '44px 44px',
+          maskImage: 'radial-gradient(circle at 50% 45%, black 0%, transparent 72%)',
+        }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(201,162,39,0.10),transparent_58%)]" />
+
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
+        <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-gold/20 bg-gold/8 text-gold shadow-[0_20px_80px_rgba(201,162,39,0.08)]">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25">
+            <path d="M3 11.5 12 4l9 7.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M5.5 10.5V20h13v-9.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M9 20v-5.5h6V20" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+
+        <p className="font-mono text-[0.58rem] uppercase tracking-[4px] text-gold/60">
+          Modelo 3D em breve
+        </p>
+        <h3 className="mt-3 font-display text-4xl leading-none text-white/88 sm:text-5xl">
+          {project}
+        </h3>
+        <p className="mt-2 text-sm text-white/42">
+          {view}
+        </p>
+        <p className="mt-5 max-w-[280px] text-xs leading-relaxed text-white/28">
+          Adicione o arquivo GLB abaixo para liberar a visualização interativa deste projeto.
+        </p>
+        <code className="mt-5 max-w-full break-all rounded-full border border-white/8 bg-black/20 px-4 py-2 font-mono text-[0.62rem] text-white/32">
+          {modelUrl}
+        </code>
+      </div>
+    </div>
+  )
+}
+
 // ─── Scene Content ────────────────────────────────────────────────────────────
 function SceneContent({ modelUrl, resetKey }: { modelUrl: string; resetKey: string }) {
   const { rotating } = useProjectStore()
@@ -201,9 +249,37 @@ export function ModelViewer() {
   const project     = getActiveProject()
   const activeView  = getActiveView()
   const isFloorPlan = activeView.glbKey === 'planta-baixa'
+  const [modelStatus, setModelStatus] = useState<'checking' | 'available' | 'missing'>('checking')
+
+  useEffect(() => {
+    let active = true
+    setModelStatus('checking')
+
+    fetch(modelUrl, { method: 'HEAD' })
+      .then((response) => {
+        if (active) setModelStatus(response.ok ? 'available' : 'missing')
+      })
+      .catch(() => {
+        if (active) setModelStatus('missing')
+      })
+
+    return () => {
+      active = false
+    }
+  }, [modelUrl])
+
+  if (modelStatus !== 'available') {
+    return (
+      <MissingModelState
+        modelUrl={modelUrl}
+        project={project?.label ?? 'Projeto'}
+        view={modelStatus === 'checking' ? 'Preparando visualização...' : activeView.label}
+      />
+    )
+  }
 
   return (
-    <div className="relative w-full h-full" style={{ background: '#06070D' }}>
+    <div className="relative w-full h-full" style={{ background: 'var(--viewer-bg)' }}>
       <Canvas
         shadows dpr={[1, 1.5]}
         camera={{ fov: 42, near: 0.1, far: 600, position: [14, 9, 14] }}

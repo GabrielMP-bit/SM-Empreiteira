@@ -37,11 +37,11 @@ export function Features() {
   return (
     <section
       id="feat"
-      className="py-32 px-8 lg:px-16"
-      style={{ background: 'linear-gradient(180deg, #09090E 0%, #07070C 100%)' }}
+      className="py-20 sm:py-32 px-5 sm:px-8 lg:px-16"
+      style={{ background: 'var(--surface-features)' }}
     >
       {/* Header */}
-      <div className="max-w-[1200px] mx-auto mb-20">
+      <div className="max-w-[1200px] mx-auto mb-12 sm:mb-20">
         <div className="flex items-center gap-3 mb-6">
           <div className="h-px w-6 bg-gold/30" />
           <span className="font-mono text-[0.58rem] tracking-[4px] text-gold/50 uppercase">
@@ -59,11 +59,12 @@ export function Features() {
       </div>
 
       {/* Grid */}
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5">
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 rounded-3xl overflow-hidden border border-white/5">
         {FEATURES.map((f) => (
           <div
             key={f.n}
-            className="group relative bg-[#07070C] p-8 hover:bg-[#0a0a12] transition-colors duration-300"
+            className="group relative p-6 sm:p-8 transition-colors duration-300"
+            style={{ background: 'var(--card-bg)' }}
           >
             {/* Number */}
             <span className="font-mono text-[0.58rem] tracking-[3px] text-gold/30 uppercase mb-5 block">
@@ -71,12 +72,12 @@ export function Features() {
             </span>
 
             {/* Title */}
-            <h3 className="text-[1rem] font-semibold text-white/70 mb-3 group-hover:text-white/90 transition-colors duration-200">
+            <h3 className="text-[1.02rem] sm:text-[1rem] font-semibold text-white/76 sm:text-white/70 mb-3 group-hover:text-white/90 transition-colors duration-200">
               {f.title}
             </h3>
 
             {/* Desc */}
-            <p className="text-[0.8rem] text-white/25 leading-relaxed font-light">
+            <p className="text-[0.85rem] sm:text-[0.8rem] text-white/36 sm:text-white/25 leading-relaxed font-light">
               {f.desc}
             </p>
 
