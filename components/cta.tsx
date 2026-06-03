@@ -22,7 +22,7 @@ export function CTA() {
       <div className="relative z-10 max-w-[640px] mx-auto">
         <div className="brand-logo-card mx-auto mb-8 flex h-24 w-32 items-center justify-center rounded-[1.6rem] border border-white/10 p-3 shadow-[0_20px_70px_rgba(0,0,0,0.18)]">
           <img src="/sm-logo-transparent.png" alt="SM Empreiteira de Obras" className="brand-logo-dark h-full w-full scale-125 object-contain" />
-          <img src="/sm-logo.png" alt="" aria-hidden="true" className="brand-logo-light h-full w-full scale-125 object-contain" />
+          <img src="/sm-logo-transparent.png" alt="" aria-hidden="true" className="brand-logo-light h-full w-full scale-125 object-contain" />
         </div>
 
         <div className="flex items-center justify-center gap-3 mb-8">

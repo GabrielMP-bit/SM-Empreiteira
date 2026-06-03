@@ -41,7 +41,7 @@ export function Hero() {
 
       <div className="brand-logo-card absolute right-8 top-24 z-10 hidden w-44 rounded-[1.6rem] border border-white/10 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.22)] lg:block">
         <img src="/sm-logo-transparent.png" alt="SM Empreiteira de Obras" className="brand-logo-dark w-full scale-125 object-contain" />
-        <img src="/sm-logo.png" alt="" aria-hidden="true" className="brand-logo-light w-full scale-125 object-contain" />
+        <img src="/sm-logo-transparent.png" alt="" aria-hidden="true" className="brand-logo-light w-full scale-125 object-contain" />
       </div>
 
       {/* Content */}

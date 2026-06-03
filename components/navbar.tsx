@@ -58,10 +58,10 @@ export function Navbar() {
               className="brand-logo-dark h-full w-full scale-[1.75] object-contain"
             />
             <img
-              src="/sm-logo.png"
+              src="/sm-logo-transparent.png"
               alt=""
               aria-hidden="true"
-              className="brand-logo-light h-full w-full scale-[1.95] object-contain"
+              className="brand-logo-light h-full w-full scale-[1.75] object-contain"
             />
           </button>
           <div className="hidden sm:flex flex-col">
