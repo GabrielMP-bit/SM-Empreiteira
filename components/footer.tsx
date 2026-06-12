@@ -28,13 +28,17 @@ export function Footer() {
 
         {/* Links */}
         <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
-          {['Instagram', 'LinkedIn', 'WhatsApp'].map((link) => (
+          {[
+            { label: 'Instagram', href: '#' },
+            { label: 'LinkedIn', href: '#' },
+            { label: 'WhatsApp', href: 'https://wa.me/5541997544343' },
+          ].map(({ label, href }) => (
             <a
-              key={link}
-              href="#"
+              key={label}
+              href={href}
               className="font-mono text-[0.58rem] tracking-[2px] text-white/20 uppercase hover:text-gold/60 transition-colors duration-200"
             >
-              {link}
+              {label}
             </a>
           ))}
         </div>

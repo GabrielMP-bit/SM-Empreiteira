@@ -63,14 +63,19 @@ export function CTA() {
         {/* Contact info */}
         <div className="mt-12 sm:mt-16 flex flex-col sm:flex-row justify-center gap-6 sm:gap-12">
           {[
-            { label: 'WhatsApp', value: '+55 41 9971-5675' },
-            { label: 'E-mail',   value: 'alceu.j.m@hotmail.com' },
-          ].map(({ label, value }) => (
+            { label: 'WhatsApp', value: '(41) 99754-4343', href: 'https://wa.me/5541997544343' },
+            { label: 'E-mail', value: 'smprestadoradeservicos1@yahoo.com', href: 'mailto:smprestadoradeservicos1@yahoo.com' },
+          ].map(({ label, value, href }) => (
             <div key={label} className="text-center">
               <p className="font-mono text-[0.55rem] tracking-[3px] text-white/20 uppercase mb-1">
                 {label}
               </p>
-              <p className="text-[0.75rem] text-white/40">{value}</p>
+              <a
+                href={href}
+                className="text-[0.75rem] text-white/40 hover:text-gold/70 transition-colors duration-200"
+              >
+                {value}
+              </a>
             </div>
           ))}
         </div>
