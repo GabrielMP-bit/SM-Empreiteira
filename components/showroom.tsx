@@ -9,7 +9,7 @@ const ModelViewer = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full flex items-center justify-center" style={{ background: '#06070D' }}>
+      <div className="w-full h-full flex items-center justify-center" style={{ background: 'var(--viewer-bg)' }}>
         <div className="w-8 h-8 rounded-full border-2 animate-spin"
           style={{ borderColor: 'rgba(201,162,39,0.1)', borderTopColor: 'rgba(201,162,39,0.7)' }} />
       </div>
@@ -46,16 +46,18 @@ function ViewIcon({ glbKey }: { glbKey: string }) {
 function ProjectSidebar() {
   const { projectId, viewId, setProject, setView, getActiveProject } = useProjectStore()
   const activeProject = getActiveProject()
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <aside className="lg:w-60 shrink-0 flex flex-col gap-3">
+    <aside className="order-2 lg:order-1 w-full lg:w-60 shrink-0 flex flex-col gap-3">
 
       {/* ── Lista de Projetos ── */}
-      <div className="rounded-2xl border border-white/6 p-4" style={{ background: 'rgba(255,255,255,0.016)' }}>
+      <div className="rounded-2xl border border-white/6 p-4" style={{ background: 'var(--card-soft)' }}>
         <p className="font-mono text-[0.55rem] tracking-[3px] text-white/25 uppercase px-1 mb-3">
           Projetos
         </p>
-        <div className="flex flex-col gap-1.5">
+        <div className="grid grid-cols-2 lg:flex lg:flex-col gap-1.5">
           {PROJECTS.map((p) => {
             const active = projectId === p.id
             return (
@@ -63,7 +65,7 @@ function ProjectSidebar() {
                 key={p.id}
                 onClick={() => setProject(p.id)}
                 className={cn(
-                  'relative flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border text-left transition-all duration-200',
+                  'relative flex items-center gap-3 w-full min-h-[58px] px-3 py-2.5 rounded-xl border text-left transition-all duration-200',
                   active
                     ? 'border-gold/30 bg-gold/6'
                     : 'border-white/5 bg-transparent hover:border-white/10 hover:bg-white/[0.03]',
@@ -87,7 +89,7 @@ function ProjectSidebar() {
       </div>
 
       {/* ── Views do projeto ativo ── */}
-      <div className="rounded-2xl border border-white/10 p-4" style={{ background: 'rgba(255,255,255,0.025)' }}>
+      <div className="rounded-2xl border border-white/10 p-4" style={{ background: 'var(--card-soft-strong)' }}>
         {/* Header da seção com nome do projeto */}
         <div className="flex items-center gap-2 mb-3 px-1">
           <div className="w-1 h-4 rounded-full bg-gold/60" />
@@ -96,7 +98,7 @@ function ProjectSidebar() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="grid grid-cols-2 lg:flex lg:flex-col gap-1.5">
           {activeProject.views.map((v) => {
             const active = viewId === v.id
             return (
@@ -104,7 +106,7 @@ function ProjectSidebar() {
                 key={v.id}
                 onClick={() => setView(v.id)}
                 className={cn(
-                  'group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-left transition-all duration-200',
+                  'group w-full min-h-[64px] flex items-center gap-3 px-3 py-2.5 rounded-xl border text-left transition-all duration-200',
                   active
                     ? 'border-gold/40 bg-gold/8 shadow-sm shadow-gold/10'
                     : 'border-white/5 bg-transparent hover:border-white/10 hover:bg-white/[0.04]',
@@ -142,7 +144,11 @@ function ProjectSidebar() {
       <div className="rounded-2xl border border-gold/12 p-4" style={{ background: 'linear-gradient(135deg, rgba(201,162,39,0.04), rgba(201,162,39,0.01))' }}>
         <p className="font-mono text-[0.55rem] tracking-[3px] text-gold/40 uppercase mb-1.5">Pronto para avançar?</p>
         <p className="text-[0.73rem] text-white/28 leading-relaxed mb-3 font-light">Orçamento sem compromisso.</p>
-        <button className="w-full py-2.5 bg-gold text-ink text-[0.68rem] tracking-[2px] font-semibold uppercase rounded-xl hover:bg-gold-2 transition-colors">
+        <button
+          type="button"
+          onClick={() => scrollTo('cta')}
+          className="w-full min-h-11 py-2.5 bg-gold text-ink text-[0.68rem] tracking-[2px] font-semibold uppercase rounded-xl hover:bg-gold-2 transition-colors"
+        >
           Solicitar Orçamento
         </button>
       </div>
@@ -155,7 +161,7 @@ function FinishPanel() {
   const { paint, coating, electric, setPaint, setCoating, setElectric } = useProjectStore()
 
   return (
-    <div className="rounded-2xl border border-white/6 p-4" style={{ background: 'rgba(255,255,255,0.016)' }}>
+    <div className="rounded-2xl border border-white/6 p-4" style={{ background: 'var(--card-soft)' }}>
       <p className="font-mono text-[0.55rem] tracking-[3px] text-white/25 uppercase mb-4">Acabamentos</p>
       <div className="flex flex-col gap-3.5">
         <FinishRow label="Pintura"
@@ -189,7 +195,7 @@ function FinishRow({ label, options, value, onChange }: {
             key={opt.id}
             onClick={() => onChange(opt.id)}
             className={cn(
-              'flex-1 py-2 text-[0.68rem] font-medium tracking-wide transition-all',
+              'flex-1 min-h-10 py-2 text-[0.68rem] font-medium tracking-wide transition-all',
               i > 0 && 'border-l border-white/8',
               value === opt.id ? 'bg-gold/10 text-gold' : 'text-white/28 hover:text-white/50 hover:bg-white/[0.03]',
             )}
@@ -205,10 +211,10 @@ function FinishRow({ label, options, value, onChange }: {
 // ── Main Showroom ─────────────────────────────────────────────────────────────
 export function Showroom() {
   return (
-    <section id="showroom" className="relative min-h-screen flex flex-col" style={{ background: '#06060A' }}>
+    <section id="showroom" className="relative min-h-screen flex flex-col" style={{ background: 'var(--surface-showroom)' }}>
       <div className="h-px bg-gradient-to-r from-transparent via-gold/18 to-transparent" />
 
-      <div className="pt-24 pb-8 px-8 text-center">
+      <div className="pt-20 sm:pt-24 pb-6 sm:pb-8 px-5 sm:px-8 text-center">
         <div className="inline-flex items-center gap-3 mb-4">
           <div className="h-px w-6 bg-gold/25" />
           <span className="font-mono text-[0.55rem] tracking-[4px] text-gold/45 uppercase">Showroom Interativo</span>
@@ -217,14 +223,14 @@ export function Showroom() {
         <h2 className="font-display text-white/85 leading-none tracking-wide" style={{ fontSize: 'clamp(2rem,4vw,3.2rem)' }}>
           VISUALIZE <span className="text-gold">SEU PROJETO</span>
         </h2>
-        <p className="mt-3 text-[0.8rem] text-white/25 max-w-sm mx-auto leading-relaxed font-light">
-          Escolha o projeto e navegue entre os pavimentos.
+        <p className="mt-3 text-[0.85rem] sm:text-[0.8rem] text-white/36 sm:text-white/25 max-w-sm mx-auto leading-relaxed font-light">
+          Explore o modelo em 3D e ajuste projeto, pavimento e acabamentos.
         </p>
       </div>
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-[1500px] w-full mx-auto px-5 lg:px-8 pb-16 gap-4">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-[1500px] w-full mx-auto px-4 sm:px-5 lg:px-8 pb-28 md:pb-16 gap-4">
         <ProjectSidebar />
-        <div className="flex-1 min-h-[65vh] lg:min-h-0 rounded-2xl overflow-hidden border border-white/6 relative">
+        <div className="order-1 lg:order-2 lg:flex-1 shrink-0 lg:shrink h-[440px] sm:h-[560px] lg:h-auto lg:min-h-0 rounded-3xl overflow-hidden border border-white/8 relative shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
           <ModelViewer />
         </div>
       </div>
